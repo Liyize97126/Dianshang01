@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
+                        //设置文本
                         wenbenshow.setText(instance.code + "\n" + instance.listdata.get(1).content);
                     }
                 });
