@@ -1,39 +1,38 @@
 package com.bawei.dianshang01;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DataCall {
     //定义
     private EditText wenbenshow;
-    private Handler handler;
+    private NewsPresenter newsPresenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         wenbenshow = findViewById(R.id.wenbenshow);
-        //android的EditText控件实现只读只需设置三个方法
-        //wenbenshow.setCursorVisible(false);//隐藏光标
-        //wenbenshow.setFocusable(false);//失去焦点
-        //wenbenshow.setFocusableInTouchMode(false);//虚拟键盘隐藏
-        handler = new Handler();
-        //网络请求框架    Volley、OKHttp、Retrofit
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                //发送请求
-                final PengPaiListBean instance = NewsModel.getInstance();
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        //设置文本
-                        wenbenshow.setText(instance.code + "\n" + instance.listdata.get(1).content);
-                    }
-                });
-            }
-        }).start();
+        //获取值
+        newsPresenter = new NewsPresenter(this);
+        newsPresenter.request();
+    }
+    //成功反馈
+    @Override
+    public void success(PengPaiListBean pengPaiListBean) {
+        wenbenshow.setText(pengPaiListBean.code + "\n" + pengPaiListBean.listdata.get(1).content);
+    }
+    //失败反馈
+    @Override
+    public void fail() {
+        Toast.makeText(MainActivity.this,"数据读取失败！",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        newsPresenter.destory();
     }
 }
