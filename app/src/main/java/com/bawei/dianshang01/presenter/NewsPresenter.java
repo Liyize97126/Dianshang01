@@ -11,8 +11,9 @@ public class NewsPresenter extends BasePresenter {
     public NewsPresenter(DataCall dataCall) {
         super(dataCall);
     }
+
     @Override
-    protected Result getModel() {
-        return NewsModel.getInstance();
+    protected Result getModel(Object... args) {
+        return NewsModel.getInstance((Integer) args[0]);
     }
 }

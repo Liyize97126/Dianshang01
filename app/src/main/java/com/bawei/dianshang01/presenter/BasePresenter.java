@@ -29,21 +29,21 @@ public abstract class BasePresenter {
     public BasePresenter(DataCall dataCall) {
         this.dataCall = dataCall;
     }
-    //请求
-    public void request(){
+    //请求（含动态参数）
+    public void request(final Object...args){
         //网络请求框架    Volley、OKHttp、Retrofit
         new Thread(new Runnable() {
             @Override
             public void run() {
                 //发送请求
                 Message message = Message.obtain();
-                message.obj = getModel();
+                message.obj = getModel(args);
                 handler.sendMessage(message);
             }
         }).start();
     }
     //获得的内容
-    protected abstract Result getModel();
+    protected abstract Result getModel(Object...args);
 
     //释放
     public void destory(){

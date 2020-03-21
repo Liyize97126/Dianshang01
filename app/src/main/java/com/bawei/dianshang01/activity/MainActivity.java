@@ -25,7 +25,7 @@ public class MainActivity extends BaseActivity implements DataCall<NewsBean> {
         wenbenshow = findViewById(R.id.wenbenshow);
         //获取值
         newsPresenter = new NewsPresenter(this);
-        newsPresenter.request();
+        newsPresenter.request(0);
     }
     //成功反馈
     @Override
