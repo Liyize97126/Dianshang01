@@ -1,4 +1,4 @@
-package com.bawei.dianshang01;
+package com.bawei.dianshang01.util;
 
 import android.util.Log;
 
